@@ -30,7 +30,7 @@ def get_labels_and_texts(file, n=10000):
     return np.array(labels), texts
 
 
-train_labels, train_texts = get_labels_and_texts('exercise-08/data/train.ft.txt.bz2', 13000)
+train_labels, train_texts = get_labels_and_texts('exercise-08/data/train.ft.txt.bz2', 60000)
 #n verändern?...
 
 
@@ -71,3 +71,5 @@ ffnn.fit(train_texts, train_labels, epochs=10, batch_size=10, verbose=1)
 #Data Set
 # 200 und n= 10000 -> 0,5084 (l=0,6967)
 # 200 und n= 13000 -> 0,5030 (l=0,6972)
+# 200 und n= 30000 -> 0,5034 (l=0,6954)
+# 200 und n= 60000 -> 0,5065 (l=0,6945)
