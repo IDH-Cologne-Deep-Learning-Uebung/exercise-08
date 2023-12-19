@@ -24,14 +24,25 @@ def get_labels_and_texts(file, n=10000):
 
 train_labels, train_texts = get_labels_and_texts('data/train.ft.txt.bz2')
 
+# Tokenizer 
+MAX_LENGTH = 100 
+tokenizer = Tokenizer()
+tokenizer.fit_on_texts(train_texts)
+train_sequences = tokenizer.texts_to_sequences(train_texts)
+padded_train_sequences = pad_sequences(train_sequences, maxlen=MAX_LENGTH, padding='post', truncating='post')
 
-ffnn = models.Sequential()
-ffnn.add(layers.Input(shape=(MAX_LENGTH)))
-ffnn.add(layers.Dense(100, activation="sigmoid"))
-ffnn.add(layers.Dropout(0.5))
-ffnn.add(layers.Dense(50, activation="sigmoid"))
-ffnn.add(layers.Dropout(0.5))
-ffnn.add(layers.Dense(1, activation="sigmoid"))
+
+
+embedding_dim = 50  
+ffnn = Sequential()
+ffnn.add(Input(shape=(MAX_LENGTH,)))
+ffnn.add(Embedding(input_dim=len(tokenizer.word_index) + 1, output_dim=embedding_dim, input_length=MAX_LENGTH))
+ffnn.add(Flatten()) #added flatten()
+ffnn.add(Dense(100, activation="sigmoid"))
+ffnn.add(Dropout(0.5))
+ffnn.add(Dense(50, activation="sigmoid"))
+ffnn.add(Dropout(0.5))
+ffnn.add(Dense(1, activation="sigmoid"))
 
 ffnn.summary()
 
