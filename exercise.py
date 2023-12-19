@@ -30,11 +30,9 @@ train_labels, train_texts = get_labels_and_texts('train.ft.txt.bz2')
 tokenizer = Tokenizer()
 tokenizer.fit_on_texts(train_texts)
 
-# Convert text to sequences of integers
 sequences = tokenizer.texts_to_sequences(train_texts)
 
-# Pad sequences to a fixed length
-max_length = 10000  # Set your desired fixed length
+max_length = 10000
 padded_sequences = pad_sequences(sequences, maxlen=max_length, padding='post', truncating='post')
 
 vocab_size = len(tokenizer.word_index) + 1
