@@ -24,9 +24,18 @@ def get_labels_and_texts(file, n=10000):
 
 train_labels, train_texts = get_labels_and_texts('data/train.ft.txt.bz2')
 
+tokenizer = Tokenizer()
+tokenizer.fit_on_texts(train_texts)
+sequences = tokenizer.texts_to_sequences(train_texts)
+max_length = 10000
+paddedSequences = pad_sequences(sequences, maxlen=max_length, padding='post', truncating='post')
+vocSize = len(tokenizer.word_index) + 1
+
 
 ffnn = models.Sequential()
 ffnn.add(layers.Input(shape=(MAX_LENGTH)))
+ffnn.add(layers.Embedding(vocSize, 200, input_length = MAX_LENGTH))
+ffnn.add(layers.Flatten())
 ffnn.add(layers.Dense(100, activation="sigmoid"))
 ffnn.add(layers.Dropout(0.5))
 ffnn.add(layers.Dense(50, activation="sigmoid"))
