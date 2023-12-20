@@ -47,7 +47,7 @@ padded_train_sequences = pad_sequences(train_sequences, maxlen=MAX_LENGTH)#Paddi
 ffnn = models.Sequential()
 
 # Embedding-Schicht hinzufügen
-EMBEDDING_DIM = 50  # Beispielwert für die Dimension der Embeddings, du kannst dies anpassen
+EMBEDDING_DIM = 50  
 ffnn.add(layers.Embedding(input_dim=len(tokenizer.word_index) + 1, output_dim=EMBEDDING_DIM, input_length=MAX_LENGTH))
 ffnn.add(layers.Flatten())  # Flatten-Schicht hinzufügen
 # weitere Schichten
@@ -74,9 +74,8 @@ ffnn.fit(train_texts, train_labels, epochs=10, batch_size=10, verbose=1)
 accuracy = history.history['accuracy']
 loss = history.history['loss']
 
-# Beispiel für Berechnung des Recall (kann je nach Anwendung variieren)
-# Beachte: Du musst die Vorhersagen des Modells für deine Testdaten erhalten, um den Recall zu berechnen.
-# Hier verwende ich einfach die Trainingsdaten als Beispiel.
+
+# Trainingsdaten
 train_predictions = ffnn.predict(padded_train_sequences)
 train_predictions = np.round(train_predictions)  # Umwandlung der Wahrscheinlichkeiten in Binärwerte (0 oder 1)
 train_recall = recall_score(train_labels, train_predictions)
